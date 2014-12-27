@@ -1,0 +1,19 @@
+{
+  "name": "ksana2015-webruntime",
+  "version": "1.0.0",
+  "description": "ksanagap runtime environment on web browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://yapcheahshen@github.com/ksanaforge/ksana2015-webruntime"
+  },
+  "author": "yapcheahshen@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ksanaforge/ksana2015-webruntime/issues"
+  },
+  "homepage": "https://github.com/ksanaforge/ksana2015-webruntime"
+}
