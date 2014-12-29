@@ -1,5 +1,8 @@
 /** @jsx React.DOM */
-
+/*
+convert to pure js
+save -g reactify
+*/
 var hasksanagap=(typeof ksanagap!="undefined");
 if (hasksanagap && (typeof console=="undefined" || typeof console.log=="undefined")) {
 		window.console={log:ksanagap.log,error:ksanagap.error,debug:ksanagap.debug,warn:ksanagap.warn};
@@ -33,30 +36,30 @@ var checkbrowser = React.createClass({
 	},
 	renderMissing:function() {
 		var showMissing=function(m) {
-			return <div>{m}</div>;
+			return React.createElement("div", null, m);
 		}
 		return (
-		 <div ref="dialog1" className="modal fade" data-backdrop="static">
-		    <div className="modal-dialog">
-		      <div className="modal-content">
-		        <div className="modal-header">
-		          <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-		          <h4 className="modal-title">Browser Check</h4>
-		        </div>
-		        <div className="modal-body">
-		          <p>Sorry but the following feature is missing</p>
-		          {this.state.missing.map(showMissing)}
-		        </div>
-		        <div className="modal-footer">
-		          <button onClick={this.downloadbrowser} type="button" className="btn btn-primary">Download Google Chrome</button>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
+		 React.createElement("div", {ref: "dialog1", className: "modal fade", "data-backdrop": "static"}, 
+		    React.createElement("div", {className: "modal-dialog"}, 
+		      React.createElement("div", {className: "modal-content"}, 
+		        React.createElement("div", {className: "modal-header"}, 
+		          React.createElement("button", {type: "button", className: "close", "data-dismiss": "modal", "aria-hidden": "true"}, "×"), 
+		          React.createElement("h4", {className: "modal-title"}, "Browser Check")
+		        ), 
+		        React.createElement("div", {className: "modal-body"}, 
+		          React.createElement("p", null, "Sorry but the following feature is missing"), 
+		          this.state.missing.map(showMissing)
+		        ), 
+		        React.createElement("div", {className: "modal-footer"}, 
+		          React.createElement("button", {onClick: this.downloadbrowser, type: "button", className: "btn btn-primary"}, "Download Google Chrome")
+		        )
+		      )
+		    )
+		  )
 		 );
 	},
 	renderReady:function() {
-		return <span>browser ok</span>
+		return React.createElement("span", null, "browser ok")
 	},
 	render:function(){
 		return  (this.state.missing.length)?this.renderMissing():this.renderReady();

@@ -2,8 +2,8 @@
 
 /* todo , optional kdb */
 
-var HtmlFS=require("./htmlfs.jsx");
-var CheckBrowser=require("./checkbrowser.jsx");  
+var HtmlFS=require("./htmlfs");
+var CheckBrowser=require("./checkbrowser");
   
 var html5fs=require("ksana-document").html5fs;
 var FileList = React.createClass({
@@ -13,36 +13,36 @@ var FileList = React.createClass({
 	updatable:function(f) {
         var classes="btn btn-warning";
         if (this.state.downloading) classes+=" disabled";
-		if (f.hasUpdate) return   <button className={classes} 
-			data-filename={f.filename}  data-url={f.url}
-	            onClick={this.download}
-	       >Update</button>
+		if (f.hasUpdate) return   React.createElement("button", {className: classes, 
+			"data-filename": f.filename, "data-url": f.url, 
+	            onClick: this.download
+	       }, "Update")
 		else return null;
 	},
 	showLocal:function(f) {
         var classes="btn btn-danger";
         if (this.state.downloading) classes+=" disabled";
-	  return <tr><td>{f.filename}</td>
-	      <td></td>
-	      <td className="pull-right">
-	      {this.updatable(f)}<button className={classes} 
-	               onClick={this.deleteFile} data-filename={f.filename}>Delete</button>
+	  return React.createElement("tr", null, React.createElement("td", null, f.filename), 
+	      React.createElement("td", null), 
+	      React.createElement("td", {className: "pull-right"}, 
+	      this.updatable(f), React.createElement("button", {className: classes, 
+	               onClick: this.deleteFile, "data-filename": f.filename}, "Delete")
 	        
-	      </td>
-	  </tr>
+	      )
+	  )
 	},  
 	showRemote:function(f) { 
 	  var classes="btn btn-warning";
 	  if (this.state.downloading) classes+=" disabled";
-	  return (<tr data-id={f.filename}><td>
-	      {f.filename}</td>
-	      <td>{f.desc}</td>
-	      <td>
-	      <span data-filename={f.filename}  data-url={f.url}
-	            className={classes}
-	            onClick={this.download}>Download</span>
-	      </td>
-	  </tr>);
+	  return (React.createElement("tr", {"data-id": f.filename}, React.createElement("td", null, 
+	      f.filename), 
+	      React.createElement("td", null, f.desc), 
+	      React.createElement("td", null, 
+	      React.createElement("span", {"data-filename": f.filename, "data-url": f.url, 
+	            className: classes, 
+	            onClick: this.download}, "Download")
+	      )
+	  ));
 	},
 	showFile:function(f) {
 	//	return <span data-id={f.filename}>{f.url}</span>
@@ -87,56 +87,56 @@ var FileList = React.createClass({
 	     if (this.state.downloading) {
 	      var progress=Math.round(this.state.progress*100);
 	      return (
-	      	<div>
-	      	Downloading from {this.state.url}
-	      <div  key="progress" className="progress col-md-8">
-	          <div className="progress-bar" role="progressbar" 
-	              aria-valuenow={progress} aria-valuemin="0" 
-	              aria-valuemax="100" style={{width: progress+"%"}}>
-	            {progress}%
-	          </div>
-	        </div>
-	        <button onClick={this.abortdownload} 
-	        	className="btn btn-danger col-md-4">Abort</button>
-	        </div>
+	      	React.createElement("div", null, 
+	      	"Downloading from ", this.state.url, 
+	      React.createElement("div", {key: "progress", className: "progress col-md-8"}, 
+	          React.createElement("div", {className: "progress-bar", role: "progressbar", 
+	              "aria-valuenow": progress, "aria-valuemin": "0", 
+	              "aria-valuemax": "100", style: {width: progress+"%"}}, 
+	            progress, "%"
+	          )
+	        ), 
+	        React.createElement("button", {onClick: this.abortdownload, 
+	        	className: "btn btn-danger col-md-4"}, "Abort")
+	        )
 	        );
 	      } else {
 	      		if ( this.allFilesReady() ) {
-	      			return <button onClick={this.dismiss} className="btn btn-success">Ok</button>
+	      			return React.createElement("button", {onClick: this.dismiss, className: "btn btn-success"}, "Ok")
 	      		} else return null;
 	      		
 	      }
 	},
 	showUsage:function() {
 		var percent=this.props.remainPercent;
-           return (<div><span className="pull-left">Usage:</span><div className="progress">
-		  <div className="progress-bar progress-bar-success progress-bar-striped" role="progressbar"  style={{width: percent+"%"}}>
-		    	{percent+"%"}
-		  </div>
-		</div></div>);
+           return (React.createElement("div", null, React.createElement("span", {className: "pull-left"}, "Usage:"), React.createElement("div", {className: "progress"}, 
+		  React.createElement("div", {className: "progress-bar progress-bar-success progress-bar-striped", role: "progressbar", style: {width: percent+"%"}}, 
+		    	percent+"%"
+		  )
+		)));
 	},
 	render:function() {
 	  	return (
-		<div ref="dialog1" className="modal fade" data-backdrop="static">
-		    <div className="modal-dialog">
-		      <div className="modal-content">
-		        <div className="modal-header">
-		          <h4 className="modal-title">File Installer</h4>
-		        </div>
-		        <div className="modal-body">
-		        	<table className="table">
-		        	<tbody>
-		          	{this.props.files.map(this.showFile)}
-		          	</tbody>
-		          </table>
-		        </div>
-		        <div className="modal-footer">
-		        	{this.showUsage()}
-		           {this.showProgress()}
-		        </div>
-		      </div>
-		    </div>
-		  </div>
+		React.createElement("div", {ref: "dialog1", className: "modal fade", "data-backdrop": "static"}, 
+		    React.createElement("div", {className: "modal-dialog"}, 
+		      React.createElement("div", {className: "modal-content"}, 
+		        React.createElement("div", {className: "modal-header"}, 
+		          React.createElement("h4", {className: "modal-title"}, "File Installer")
+		        ), 
+		        React.createElement("div", {className: "modal-body"}, 
+		        	React.createElement("table", {className: "table"}, 
+		        	React.createElement("tbody", null, 
+		          	this.props.files.map(this.showFile)
+		          	)
+		          )
+		        ), 
+		        React.createElement("div", {className: "modal-footer"}, 
+		        	this.showUsage(), 
+		           this.showProgress()
+		        )
+		      )
+		    )
+		  )
 		);
 	},	
 	componentDidMount:function() {
@@ -265,20 +265,20 @@ var Filemanager = React.createClass({
 	},
 	render:function(){
     		if (!this.state.browserReady) {   
-      			return <CheckBrowser feature="fs" onReady={this.onBrowserOk}/>
+      			return React.createElement(CheckBrowser, {feature: "fs", onReady: this.onBrowserOk})
     		} if (!this.state.quota || this.state.remain<this.state.requireSpace) {  
     			var quota=this.state.requestQuota;
     			if (this.state.usage+this.state.requireSpace>quota) {
     				quota=(this.state.usage+this.state.requireSpace)*1.5;
     			}
-      			return <HtmlFS quota={quota} autoclose="true" onReady={this.onQuoteOk}/>
+      			return React.createElement(HtmlFS, {quota: quota, autoclose: "true", onReady: this.onQuoteOk})
       		} else {
 			if (!this.state.noupdate || this.missingKdb().length || !this.state.autoclose) {
 				var remain=Math.round((this.state.usage/this.state.quota)*100);				
-				return <FileList action={this.action} files={this.state.files} remainPercent={remain}/>
+				return React.createElement(FileList, {action: this.action, files: this.state.files, remainPercent: remain})
 			} else {
 				setTimeout( this.dismiss ,0);
-				return <span>Success</span>;
+				return React.createElement("span", null, "Success");
 			}
       		}
 	},

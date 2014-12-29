@@ -46,8 +46,8 @@ var boot=function(appId,main,maindiv,cb) {
 }
 
 module.exports={boot:boot
-	,htmlfs:require("./htmlfs.jsx")
-	,liveupdate:require("./liveupdate.js")
-	,fileinstaller:require("./fileinstaller.jsx")
+	,htmlfs:require("./htmlfs")
+	,liveupdate:require("./liveupdate")
+	,fileinstaller:require("./fileinstaller")
 	,downloader:require("./downloader")
 };
