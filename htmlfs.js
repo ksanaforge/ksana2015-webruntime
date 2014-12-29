@@ -1,4 +1,6 @@
 var html5fs=require("ksana-document").html5fs;
+var E=React.createElement;
+
 var htmlfs = React.createClass({
 	getInitialState:function() { 
 		return {ready:false, quota:0,usage:0,Initialized:false,autoclose:this.props.autoclose};
@@ -14,17 +16,17 @@ var htmlfs = React.createClass({
 	},
 	welcome:function() {
 		return (
-		React.createElement("div", {ref: "dialog1", className: "modal fade", id: "myModal", "data-backdrop": "static"}, 
-		    React.createElement("div", {className: "modal-dialog"}, 
-		      React.createElement("div", {className: "modal-content"}, 
-		        React.createElement("div", {className: "modal-header"}, 
-		          React.createElement("h4", {className: "modal-title"}, "Welcome")
+		E("div", {ref: "dialog1", className: "modal fade", id: "myModal", "data-backdrop": "static"}, 
+		    E("div", {className: "modal-dialog"}, 
+		      E("div", {className: "modal-content"}, 
+		        E("div", {className: "modal-header"}, 
+		          E("h4", {className: "modal-title"}, "Welcome")
 		        ), 
-		        React.createElement("div", {className: "modal-body"}, 
+		        E("div", {className: "modal-body"}, 
 		          "Browser will ask for your confirmation."
 		        ), 
-		        React.createElement("div", {className: "modal-footer"}, 
-		          React.createElement("button", {onClick: this.initFilesystem, type: "button", 
+		        E("div", {className: "modal-footer"}, 
+		          E("button", {onClick: this.initFilesystem, type: "button", 
 		            className: "btn btn-primary"}, "Initialize File System")
 		        )
 		      )
@@ -35,26 +37,26 @@ var htmlfs = React.createClass({
 	renderDefault:function(){
 		var used=Math.floor(this.state.usage/this.state.quota *100);
 		var more=function() {
-			if (used>50) return React.createElement("button", {type: "button", className: "btn btn-primary"}, "Allocate More");
+			if (used>50) return E("button", {type: "button", className: "btn btn-primary"}, "Allocate More");
 			else null;
 		}
 		return (
-		React.createElement("div", {ref: "dialog1", className: "modal fade", id: "myModal", "data-backdrop": "static"}, 
-		    React.createElement("div", {className: "modal-dialog"}, 
-		      React.createElement("div", {className: "modal-content"}, 
-		        React.createElement("div", {className: "modal-header"}, 
-		          React.createElement("h4", {className: "modal-title"}, "Sandbox File System")
+		E("div", {ref: "dialog1", className: "modal fade", id: "myModal", "data-backdrop": "static"}, 
+		    E("div", {className: "modal-dialog"}, 
+		      E("div", {className: "modal-content"}, 
+		        E("div", {className: "modal-header"}, 
+		          E("h4", {className: "modal-title"}, "Sandbox File System")
 		        ), 
-		        React.createElement("div", {className: "modal-body"}, 
-		          React.createElement("div", {className: "progress"}, 
-		            React.createElement("div", {className: "progress-bar", role: "progressbar", style: {width: used+"%"}}, 
+		        E("div", {className: "modal-body"}, 
+		          E("div", {className: "progress"}, 
+		            E("div", {className: "progress-bar", role: "progressbar", style: {width: used+"%"}}, 
 		               used, "%"
 		            )
 		          ), 
-		          React.createElement("span", null, this.state.quota, " total , ", this.state.usage, " in used")
+		          E("span", null, this.state.quota, " total , ", this.state.usage, " in used")
 		        ), 
-		        React.createElement("div", {className: "modal-footer"}, 
-		          React.createElement("button", {onClick: this.dismiss, type: "button", className: "btn btn-default", "data-dismiss": "modal"}, "Close"), 
+		        E("div", {className: "modal-footer"}, 
+		          E("button", {onClick: this.dismiss, type: "button", className: "btn btn-default", "data-dismiss": "modal"}, "Close"), 
 		          more()
 		        )
 		      )
@@ -84,7 +86,7 @@ var htmlfs = React.createClass({
 				this.dialog=true;
 				return this.welcome();	
 			} else {
-				return React.createElement("span", null, "checking quota");
+				return E("span", null, "checking quota");
 			}			
 		} else {
 			if (!this.state.autoclose) {

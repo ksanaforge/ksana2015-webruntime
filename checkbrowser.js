@@ -3,6 +3,8 @@
 convert to pure js
 save -g reactify
 */
+var E=React.createElement;
+
 var hasksanagap=(typeof ksanagap!="undefined");
 if (hasksanagap && (typeof console=="undefined" || typeof console.log=="undefined")) {
 		window.console={log:ksanagap.log,error:ksanagap.error,debug:ksanagap.debug,warn:ksanagap.warn};
@@ -36,22 +38,22 @@ var checkbrowser = React.createClass({
 	},
 	renderMissing:function() {
 		var showMissing=function(m) {
-			return React.createElement("div", null, m);
+			return E("div", null, m);
 		}
 		return (
-		 React.createElement("div", {ref: "dialog1", className: "modal fade", "data-backdrop": "static"}, 
-		    React.createElement("div", {className: "modal-dialog"}, 
-		      React.createElement("div", {className: "modal-content"}, 
-		        React.createElement("div", {className: "modal-header"}, 
-		          React.createElement("button", {type: "button", className: "close", "data-dismiss": "modal", "aria-hidden": "true"}, "×"), 
-		          React.createElement("h4", {className: "modal-title"}, "Browser Check")
+		 E("div", {ref: "dialog1", className: "modal fade", "data-backdrop": "static"}, 
+		    E("div", {className: "modal-dialog"}, 
+		      E("div", {className: "modal-content"}, 
+		        E("div", {className: "modal-header"}, 
+		          E("button", {type: "button", className: "close", "data-dismiss": "modal", "aria-hidden": "true"}, "×"), 
+		          E("h4", {className: "modal-title"}, "Browser Check")
 		        ), 
-		        React.createElement("div", {className: "modal-body"}, 
-		          React.createElement("p", null, "Sorry but the following feature is missing"), 
+		        E("div", {className: "modal-body"}, 
+		          E("p", null, "Sorry but the following feature is missing"), 
 		          this.state.missing.map(showMissing)
 		        ), 
-		        React.createElement("div", {className: "modal-footer"}, 
-		          React.createElement("button", {onClick: this.downloadbrowser, type: "button", className: "btn btn-primary"}, "Download Google Chrome")
+		        E("div", {className: "modal-footer"}, 
+		          E("button", {onClick: this.downloadbrowser, type: "button", className: "btn btn-primary"}, "Download Google Chrome")
 		        )
 		      )
 		    )
@@ -59,7 +61,7 @@ var checkbrowser = React.createClass({
 		 );
 	},
 	renderReady:function() {
-		return React.createElement("span", null, "browser ok")
+		return E("span", null, "browser ok")
 	},
 	render:function(){
 		return  (this.state.missing.length)?this.renderMissing():this.renderReady();

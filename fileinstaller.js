@@ -4,6 +4,7 @@
 
 var HtmlFS=require("./htmlfs");
 var CheckBrowser=require("./checkbrowser");
+var E=React.createElement;
   
 var html5fs=require("ksana-document").html5fs;
 var FileList = React.createClass({
@@ -13,7 +14,7 @@ var FileList = React.createClass({
 	updatable:function(f) {
         var classes="btn btn-warning";
         if (this.state.downloading) classes+=" disabled";
-		if (f.hasUpdate) return   React.createElement("button", {className: classes, 
+		if (f.hasUpdate) return   E("button", {className: classes, 
 			"data-filename": f.filename, "data-url": f.url, 
 	            onClick: this.download
 	       }, "Update")
@@ -22,10 +23,10 @@ var FileList = React.createClass({
 	showLocal:function(f) {
         var classes="btn btn-danger";
         if (this.state.downloading) classes+=" disabled";
-	  return React.createElement("tr", null, React.createElement("td", null, f.filename), 
-	      React.createElement("td", null), 
-	      React.createElement("td", {className: "pull-right"}, 
-	      this.updatable(f), React.createElement("button", {className: classes, 
+	  return E("tr", null, E("td", null, f.filename), 
+	      E("td", null), 
+	      E("td", {className: "pull-right"}, 
+	      this.updatable(f), E("button", {className: classes, 
 	               onClick: this.deleteFile, "data-filename": f.filename}, "Delete")
 	        
 	      )
@@ -34,11 +35,11 @@ var FileList = React.createClass({
 	showRemote:function(f) { 
 	  var classes="btn btn-warning";
 	  if (this.state.downloading) classes+=" disabled";
-	  return (React.createElement("tr", {"data-id": f.filename}, React.createElement("td", null, 
+	  return (E("tr", {"data-id": f.filename}, E("td", null, 
 	      f.filename), 
-	      React.createElement("td", null, f.desc), 
-	      React.createElement("td", null, 
-	      React.createElement("span", {"data-filename": f.filename, "data-url": f.url, 
+	      E("td", null, f.desc), 
+	      E("td", null, 
+	      E("span", {"data-filename": f.filename, "data-url": f.url, 
 	            className: classes, 
 	            onClick: this.download}, "Download")
 	      )
@@ -87,50 +88,50 @@ var FileList = React.createClass({
 	     if (this.state.downloading) {
 	      var progress=Math.round(this.state.progress*100);
 	      return (
-	      	React.createElement("div", null, 
+	      	E("div", null, 
 	      	"Downloading from ", this.state.url, 
-	      React.createElement("div", {key: "progress", className: "progress col-md-8"}, 
-	          React.createElement("div", {className: "progress-bar", role: "progressbar", 
+	      E("div", {key: "progress", className: "progress col-md-8"}, 
+	          E("div", {className: "progress-bar", role: "progressbar", 
 	              "aria-valuenow": progress, "aria-valuemin": "0", 
 	              "aria-valuemax": "100", style: {width: progress+"%"}}, 
 	            progress, "%"
 	          )
 	        ), 
-	        React.createElement("button", {onClick: this.abortdownload, 
+	        E("button", {onClick: this.abortdownload, 
 	        	className: "btn btn-danger col-md-4"}, "Abort")
 	        )
 	        );
 	      } else {
 	      		if ( this.allFilesReady() ) {
-	      			return React.createElement("button", {onClick: this.dismiss, className: "btn btn-success"}, "Ok")
+	      			return E("button", {onClick: this.dismiss, className: "btn btn-success"}, "Ok")
 	      		} else return null;
 	      		
 	      }
 	},
 	showUsage:function() {
 		var percent=this.props.remainPercent;
-           return (React.createElement("div", null, React.createElement("span", {className: "pull-left"}, "Usage:"), React.createElement("div", {className: "progress"}, 
-		  React.createElement("div", {className: "progress-bar progress-bar-success progress-bar-striped", role: "progressbar", style: {width: percent+"%"}}, 
+           return (E("div", null, E("span", {className: "pull-left"}, "Usage:"), E("div", {className: "progress"}, 
+		  E("div", {className: "progress-bar progress-bar-success progress-bar-striped", role: "progressbar", style: {width: percent+"%"}}, 
 		    	percent+"%"
 		  )
 		)));
 	},
 	render:function() {
 	  	return (
-		React.createElement("div", {ref: "dialog1", className: "modal fade", "data-backdrop": "static"}, 
-		    React.createElement("div", {className: "modal-dialog"}, 
-		      React.createElement("div", {className: "modal-content"}, 
-		        React.createElement("div", {className: "modal-header"}, 
-		          React.createElement("h4", {className: "modal-title"}, "File Installer")
+		E("div", {ref: "dialog1", className: "modal fade", "data-backdrop": "static"}, 
+		    E("div", {className: "modal-dialog"}, 
+		      E("div", {className: "modal-content"}, 
+		        E("div", {className: "modal-header"}, 
+		          E("h4", {className: "modal-title"}, "File Installer")
 		        ), 
-		        React.createElement("div", {className: "modal-body"}, 
-		        	React.createElement("table", {className: "table"}, 
-		        	React.createElement("tbody", null, 
+		        E("div", {className: "modal-body"}, 
+		        	E("table", {className: "table"}, 
+		        	E("tbody", null, 
 		          	this.props.files.map(this.showFile)
 		          	)
 		          )
 		        ), 
-		        React.createElement("div", {className: "modal-footer"}, 
+		        E("div", {className: "modal-footer"}, 
 		        	this.showUsage(), 
 		           this.showProgress()
 		        )
@@ -265,20 +266,20 @@ var Filemanager = React.createClass({
 	},
 	render:function(){
     		if (!this.state.browserReady) {   
-      			return React.createElement(CheckBrowser, {feature: "fs", onReady: this.onBrowserOk})
+      			return E(CheckBrowser, {feature: "fs", onReady: this.onBrowserOk})
     		} if (!this.state.quota || this.state.remain<this.state.requireSpace) {  
     			var quota=this.state.requestQuota;
     			if (this.state.usage+this.state.requireSpace>quota) {
     				quota=(this.state.usage+this.state.requireSpace)*1.5;
     			}
-      			return React.createElement(HtmlFS, {quota: quota, autoclose: "true", onReady: this.onQuoteOk})
+      			return E(HtmlFS, {quota: quota, autoclose: "true", onReady: this.onQuoteOk})
       		} else {
 			if (!this.state.noupdate || this.missingKdb().length || !this.state.autoclose) {
 				var remain=Math.round((this.state.usage/this.state.quota)*100);				
-				return React.createElement(FileList, {action: this.action, files: this.state.files, remainPercent: remain})
+				return E(FileList, {action: this.action, files: this.state.files, remainPercent: remain})
 			} else {
 				setTimeout( this.dismiss ,0);
-				return React.createElement("span", null, "Success");
+				return E("span", null, "Success");
 			}
       		}
 	},
