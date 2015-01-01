@@ -1,6 +1,6 @@
 var appname="installer";
 var switchApp=function(path) {
-	var fs=nodeRequire("fs");
+	var fs=require("fs");
 	path="../"+path;
 	appname=path;
 	document.location.href= path+"/index.html"; 
@@ -62,12 +62,12 @@ var ksanagap={
 	
 }
 
-if (typeof process!="undefined" && !process.browser) {
-	var ksanajs=nodeRequire("fs").readFileSync("./ksana.js","utf8");
+if (typeof process!="undefined") {
+	var ksanajs=require("fs").readFileSync("./ksana.js","utf8");
 	downloader=require("./downloader");
 	ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
 	rootPath=process.cwd();
-	rootPath=nodeRequire("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
+	rootPath=require("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
 	ksana.ready=true;
 } else{
 	var url=window.location.origin+window.location.pathname.replace("index.html","")+"ksana.js";

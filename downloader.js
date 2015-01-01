@@ -1,9 +1,4 @@
-if (typeof nodeRequire!="undefined"){
-	var http   = nodeRequire("http");
-	var fs     = nodeRequire("fs");
-	var path   = nodeRequire("path");
-	var mkdirp = require("./mkdirp");	
-}
+
 var userCancel=false;
 var files=[];
 var totalDownloadByte=0;
@@ -14,6 +9,10 @@ var baseurl="";
 var result="";
 var downloading=false;
 var startDownload=function(dbid,_baseurl,_files) { //return download id
+	var fs     = require("fs");
+	var path   = require("path");
+
+	
 	files=_files.split("\uffff");
 	if (downloading) return false; //only one session
 	userCancel=false;
@@ -42,6 +41,9 @@ var nextFile=function() {
 var downloadFile=function(nfile) {
 	var url=baseurl+files[nfile];
 	var tmpfilename=tempPath+files[nfile];
+	var mkdirp = require("./mkdirp");
+	var fs     = require("fs");
+	var http   = require("http");
 
 	mkdirp.sync(path.dirname(tmpfilename));
 	var writeStream = fs.createWriteStream(tmpfilename);
@@ -74,6 +76,8 @@ var endDownload=function() {
 	result="cancelled";
 	downloading=false;
 	if (userCancel) return;
+	var fs     = require("fs");
+	var mkdirp = require("./mkdirp");
 
 	for (var i=0;i<files.length;i++) {
 		var targetfilename=targetPath+files[i];

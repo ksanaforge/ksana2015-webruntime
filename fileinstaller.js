@@ -3,10 +3,11 @@
 /* todo , optional kdb */
 
 var HtmlFS=require("./htmlfs");
+var html5fs=require("./html5fs");
 var CheckBrowser=require("./checkbrowser");
 var E=React.createElement;
   
-var html5fs=require("ksana-document").html5fs;
+
 var FileList = React.createClass({
 	getInitialState:function() {
 		return {downloading:false,progress:0};

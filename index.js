@@ -51,6 +51,7 @@ var boot=function(appId,main,maindiv,cb) {
 
 module.exports={boot:boot
 	,htmlfs:require("./htmlfs")
+	,html5fs:require("./html5fs")
 	,liveupdate:require("./liveupdate")
 	,fileinstaller:require("./fileinstaller")
 	,downloader:require("./downloader")

@@ -1,4 +1,4 @@
-var html5fs=require("ksana-document").html5fs;
+var html5fs=require("./html5fs");
 var E=React.createElement;
 
 var htmlfs = React.createClass({
