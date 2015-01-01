@@ -62,7 +62,7 @@ var ksanagap={
 	
 }
 
-if (typeof process!="undefined") {
+if (typeof process!="undefined" && !process.browser) {
 	var ksanajs=nodeRequire("fs").readFileSync("./ksana.js","utf8");
 	downloader=require("./downloader");
 	ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
@@ -70,7 +70,7 @@ if (typeof process!="undefined") {
 	rootPath=nodeRequire("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
 	ksana.ready=true;
 } else{
-	var url=window.location.origin+window.location.pathname+"ksana.js";
+	var url=window.location.origin+window.location.pathname.replace("index.html","")+"ksana.js";
 	jsonp(url,appname,function(data){
 		ksana.js=data;
 		ksana.ready=true;
