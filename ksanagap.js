@@ -63,9 +63,10 @@ var ksanagap={
 }
 
 if (typeof process!="undefined") {
-	var ksanajs=require("fs").readFileSync("./ksana.js","utf8");
+	var ksanajs=require("fs").readFileSync("./ksana.js","utf8").trim();
 	downloader=require("./downloader");
-	ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
+	console.log(ksanajs);
+	//ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
 	rootPath=process.cwd();
 	rootPath=require("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
 	ksana.ready=true;
