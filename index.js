@@ -5,12 +5,13 @@ if (typeof window!="undefined") {
 		window.ksanagap=require("./ksanagap"); //compatible layer with mobile
 	}
 }
-if (typeof process !="undefined" && !process.browser) {
+if (typeof process !="undefined") {
 	if (process.versions && process.versions["node-webkit"]) {
   		if (typeof nodeRequire!="undefined") ksana.require=nodeRequire;
   		ksana.platform="node-webkit";
   		window.ksanagap.platform="node-webkit";
-		
+		var ksanajs=require("fs").readFileSync("ksana.js","utf8").trim();
+		ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
 		window.kfs=require("./kfs");
   	}
 } else if (typeof chrome!="undefined"){//} && chrome.fileSystem){
@@ -30,19 +31,17 @@ if (typeof process !="undefined" && !process.browser) {
 	}
 }
 var timer=null;
-var enterMainComponent=function() {
-	var main=main||"main";
-	var maindiv=maindiv||"main";
-	var Main=React.createElement(require(main));
-	ksana.mainComponent=React.render(Main,document.getElementById(maindiv));
-}
-var boot=function(appId,main,maindiv,cb) {
+var boot=function(appId,cb) {
 	ksana.appId=appId;
 	if (ksanagap.platform=="chrome") { //need to wait for jsonp ksana.js
 		timer=setInterval(function(){
 			if (ksana.ready){
 				clearInterval(timer);
-				cb();
+				if (ksana.js && ksana.js.files && ksana.js.files.length) {
+					require("./installkdb")(ksana.js,cb);
+				} else {
+					cb();		
+				}
 			}
 		},300);
 	} else {
@@ -56,4 +55,5 @@ module.exports={boot:boot
 	,liveupdate:require("./liveupdate")
 	,fileinstaller:require("./fileinstaller")
 	,downloader:require("./downloader")
+	,installkdb:require("./installkdb")
 };
