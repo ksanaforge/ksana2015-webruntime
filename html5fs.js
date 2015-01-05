@@ -18,7 +18,7 @@ var get_date=function(url,cb) {
 		cb(value);
 	});
 }
-var getDownloadSize=function(url, cb) {
+var get_size=function(url, cb) {
 	get_head(url,"Content-Length",function(value){
 		cb(parseInt(value));
 	});
@@ -92,7 +92,7 @@ var download=function(url,fn,cb,statuscb,context) {
 		xhr.send();
 	}
 
-	getDownloadSize(url,function(size){
+	get_size(url,function(size){
 		totalsize=size;
 		if (!size) {
 			if (cb) cb.apply(context,[false]);
@@ -201,10 +201,13 @@ var API={
 	,rm:rm
 	,rmURL:rmURL
 	,getFileURL:getFileURL
-	,getDownloadSize:getDownloadSize
 	,writeFile:writeFile
 	,readFile:readFile
 	,download:download
+	,get_head:get_head
+	,get_date:get_date
+	,get_size:get_size
+	,getDownloadSize:get_size
 	,queryQuota:queryQuota
 }
 module.exports=API;

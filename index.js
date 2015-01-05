@@ -17,6 +17,7 @@ if (typeof process !="undefined" && !process.browser) {
 //	window.ksanagap=require("./ksanagap"); //compatible layer with mobile
 	window.ksanagap.platform="chrome";
 	window.kfs=require("./kfs_html5");
+	require("./livereload")();
 	ksana.platform="chrome";
 } else {
 	if (typeof ksanagap!="undefined" && typeof fs!="undefined") {//mobile
