@@ -32,7 +32,6 @@ var openFileinstaller=function(keep) {
 	                 onReady: onReady});
 }
 var installkdb=function(ksanajs,cb,context) {
-	console.log(ksanajs.files);
 	React.render(openFileinstaller(),document.getElementById("main"));
 	callback=cb;
 }

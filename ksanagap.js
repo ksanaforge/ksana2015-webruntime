@@ -62,7 +62,7 @@ var ksanagap={
 	
 }
 
-if (typeof process!="undefined") {
+if (typeof process!="undefined" && !process.browser) {
 	var ksanajs=require("fs").readFileSync("./ksana.js","utf8").trim();
 	downloader=require("./downloader");
 	console.log(ksanajs);
