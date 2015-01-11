@@ -18,7 +18,9 @@ if (typeof process !="undefined") {
 //	window.ksanagap=require("./ksanagap"); //compatible layer with mobile
 	window.ksanagap.platform="chrome";
 	window.kfs=require("./kfs_html5");
-	require("./livereload")();
+	if(window.location.origin.indexOf("//127.0.0.1")>-1) {
+		require("./livereload")();
+	}
 	ksana.platform="chrome";
 } else {
 	if (typeof ksanagap!="undefined" && typeof fs!="undefined") {//mobile
