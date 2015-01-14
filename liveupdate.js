@@ -4,14 +4,19 @@ var jsonp=function(url,dbid,callback,context) {
   if (script) {
     script.parentNode.removeChild(script);
   }
+  if (typeof dbid=="function") {
+    context=callback;
+    callback=dbid;
+    dbid="";
+  }
   window.jsonp_handler=function(data) {
     //console.log("receive from ksana.js",data);
-    if (typeof data=="object") {
+    if (typeof data=="object" && dbid) {
       if (typeof data.dbid=="undefined") {
         data.dbid=dbid;
       }
-      callback.apply(context,[data]);
-    }  
+    }
+    callback.apply(context,[data]);
   }
 
   window.jsonp_error_handler=function() {
@@ -113,7 +118,14 @@ var humanFileSize=function(bytes, si) {
     } while(bytes >= thresh);
     return bytes.toFixed(1)+' '+units[u];
 };
-
+var humanDate=function(datestring) {
+    var d=Date.parse(datestring);
+    if (isNaN(d)) {
+      return "invalid date";
+    } else {
+      return new Date(d).toLocaleString();
+    }
+}
 var start=function(ksanajs,cb,context){
   var files=ksanajs.newfiles||ksanajs.files;
   var baseurl=ksanajs.baseurl|| "http://127.0.0.1:8080/"+ksanajs.dbid+"/";
@@ -131,7 +143,7 @@ var cancel=function(){
   return ksanagap.cancelDownload();
 }
 
-var liveupdate={ humanFileSize: humanFileSize, 
+var liveupdate={ humanFileSize: humanFileSize, humanDate:humanDate,
   needToUpdate: needToUpdate , jsonp:jsonp, 
   getUpdatables:getUpdatables,
   start:start,

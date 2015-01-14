@@ -34,6 +34,9 @@ if (typeof process !="undefined") {
 }
 var timer=null;
 var boot=function(appId,cb) {
+	if (typeof React!="undefined") {
+		React.initializeTouchEvents(true);
+	}
 	ksana.appId=appId;
 	if (ksanagap.platform=="chrome") { //need to wait for jsonp ksana.js
 		timer=setInterval(function(){

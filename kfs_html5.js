@@ -1,7 +1,7 @@
 var readDir=function(){
-	return [];
+	return "[]";
 }
 var listApps=function(){
-	return [];
+	return "[]";
 }
 module.exports={readDir:readDir,listApps:listApps};

@@ -65,7 +65,6 @@ var ksanagap={
 if (typeof process!="undefined" && !process.browser) {
 	var ksanajs=require("fs").readFileSync("./ksana.js","utf8").trim();
 	downloader=require("./downloader");
-	console.log(ksanajs);
 	//ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
 	rootPath=process.cwd();
 	rootPath=require("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';

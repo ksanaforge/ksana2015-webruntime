@@ -28,13 +28,20 @@ var listApps=function() {
 	
 	var out=dirs.map(function(d){
 		var content=fs.readFileSync(ksanajsfile(d),"utf8");
-  	content=content.replace("})","}");
-  	content=content.replace("jsonp_handler(","");
-		var obj= JSON.parse(content);
-		obj.dbid=d;
-		obj.path=d;
-		return obj;
-	})
+  		content=content.replace("})","}");
+  		content=content.replace("jsonp_handler(","");
+  		try{
+  			var obj= JSON.parse(content);
+			obj.dbid=d;
+			obj.path=d;
+			return obj;
+  		} catch(e) {
+  			console.log(e);
+  			return null;
+  		}
+	});
+
+	out=out.filter(function(o){return !!o});
 	return JSON.stringify(out);
 }
 
