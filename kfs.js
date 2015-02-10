@@ -19,6 +19,7 @@ var readDir=function(path) { //simulate Ksanagap function
 	return dirs.join("\uffff");
 }
 var listApps=function() {
+
 	var fs=nodeRequire("fs");
 	var ksanajsfile=function(d) {return "../"+d+"/ksana.js"};
 	var dirs=fs.readdirSync("..").filter(function(d){
@@ -27,7 +28,10 @@ var listApps=function() {
 	});
 	
 	var out=dirs.map(function(d){
-		var content=fs.readFileSync(ksanajsfile(d),"utf8");
+
+		var fn=ksanajsfile(d);
+		if (!fs.existsSync(fn)) return;
+		var content=fs.readFileSync(fn,"utf8");
   		content=content.replace("})","}");
   		content=content.replace("jsonp_handler(","");
   		try{

@@ -33,6 +33,7 @@ if (typeof process !="undefined") {
 	}
 }
 var timer=null;
+var React=window.React||require("react");
 var boot=function(appId,cb) {
 	if (typeof React!="undefined") {
 		React.initializeTouchEvents(true);

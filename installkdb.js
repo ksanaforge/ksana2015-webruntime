@@ -1,3 +1,4 @@
+var React=window.React||require("react");
 var Fileinstaller=require("./fileinstaller");
 
 var getRequire_kdb=function() {

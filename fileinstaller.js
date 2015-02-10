@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 /* todo , optional kdb */
-
+var React=window.React||require("react");
 var HtmlFS=require("./htmlfs");
 var html5fs=require("./html5fs");
 var CheckBrowser=require("./checkbrowser");

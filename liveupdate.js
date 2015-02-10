@@ -46,7 +46,7 @@ var needToUpdate=function(fromjson,tojson) {
     var from=fromjson[i];
     var newfiles=[],newfilesizes=[],removed=[];
     
-    if (!to) continue; //cannot reach host
+    if (!to || !to.files) continue; //cannot reach host
     if (!runtime_version_ok(to.minruntime)) {
       console.warn("runtime too old, need "+to.minruntime);
       continue; 
@@ -92,9 +92,13 @@ var getRemoteJson=function(apps,cb,context) {
         if (!app.baseurl) {
           taskqueue.shift({__empty:true});
         } else {
-          var url=app.baseurl+"/ksana.js";    
-          console.log(url);
-          jsonp( url ,app.dbid,taskqueue.shift(), context);           
+          var url=app.baseurl+"/ksana.js";
+          try {
+            jsonp( url ,app.dbid,taskqueue.shift(), context);             
+          } catch(e) {
+            console.log(e);
+            taskqueue.shift({__empty:true});
+          }
         }
     };
   };
