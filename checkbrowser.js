@@ -1,9 +1,8 @@
-/** @jsx React.DOM */
 /*
 convert to pure js
 save -g reactify
 */
-var React=window.React||require("react");
+var React=(window&&window.React)||require("react");
 var E=React.createElement;
 
 var hasksanagap=(typeof ksanagap!="undefined");

@@ -1,5 +1,5 @@
 var html5fs=require("./html5fs");
-var React=window.React||require("react");
+var React=(window&&window.React)||require("react");
 var E=React.createElement;
 
 var htmlfs = React.createClass({
