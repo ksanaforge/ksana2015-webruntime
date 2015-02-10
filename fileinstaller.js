@@ -257,7 +257,7 @@ var Filemanager = React.createClass({
 		}
 		var that=this;
 		taskqueue.push(function(data){	
-			files[files.length-1].hasUpdate=data;
+			if (files.length) files[files.length-1].hasUpdate=data;
 			var hasupdate=files.some(function(f){return f.hasUpdate});
 			if (cb) cb.apply(that,[hasupdate]);
 		});
