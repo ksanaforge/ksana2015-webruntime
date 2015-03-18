@@ -9,9 +9,9 @@ var get_head=function(url,field,cb){
 				if (this.status!==200&&this.status!==206) {
 					cb("");
 				}
-			} 
+			}
 	};
-	xhr.send();	
+	xhr.send();
 }
 var get_date=function(url,cb) {
 	get_head(url,"Last-Modified",function(value){
@@ -56,11 +56,11 @@ var download=function(url,fn,cb,statuscb,context) {
 	 var finish=function() {
 		 rm(fn,function(){
 				fileEntry.moveTo(fileEntry.filesystem.root, fn,function(){
-					setTimeout( cb.bind(context,false) , 0) ; 
+					setTimeout( cb.bind(context,false) , 0) ;
 				},function(e){
 					console.log("failed",e)
 				});
-		 },this); 
+		 },this);
 	 };
 		var tempfn="temp.kdb";
 		var batch=function(b) {
@@ -69,7 +69,7 @@ var download=function(url,fn,cb,statuscb,context) {
 		var requesturl=url+"?"+Math.random();
 		xhr.open('get', requesturl, true);
 		xhr.setRequestHeader('Range', 'bytes='+batches[b]+'-'+(batches[b+1]-1));
-		xhr.responseType = 'blob';    
+		xhr.responseType = 'blob';
 		xhr.addEventListener('load', function() {
 			var blob=this.response;
 			fileEntry.createWriter(function(fileWriter) {
@@ -114,18 +114,28 @@ var readFile=function(filename,cb,context) {
 			var reader = new FileReader();
 			reader.onloadend = function(e) {
 					if (cb) cb.apply(cb,[this.result]);
-				};            
+				};
 	}, console.error);
 }
 var writeFile=function(filename,buf,cb,context){
-	API.fs.root.getFile(filename, {create: true, exclusive: true}, function(fileEntry) {
-			fileEntry.createWriter(function(fileWriter) {
-				fileWriter.write(buf);
-				fileWriter.onwriteend = function(e) {
-					if (cb) cb.apply(cb,[buf.byteLength]);
-				};            
-			}, console.error);
-	}, console.error);
+
+	var write=function(fileEntry){
+		fileEntry.createWriter(function(fileWriter) {
+			fileWriter.write(buf);
+			fileWriter.onwriteend = function(e) {
+				if (cb) cb.apply(cb,[buf.byteLength]);
+			};
+		}, console.error);
+	}
+
+	API.fs.root.getFile(filename, {exclusive:true}, function(fileEntry) {
+		write(fileEntry);
+	}, function(){
+			API.fs.root.getFile(filename, {create:true,exclusive:true}, function(fileEntry) {
+				write(fileEntry);
+			});
+
+	});
 }
 
 var readdir=function(cb,context) {
@@ -179,7 +189,7 @@ var initfs=function(grantedBytes,cb,context) {
 	}, errorHandler);
 }
 var init=function(quota,cb,context) {
-	navigator.webkitPersistentStorage.requestQuota(quota, 
+	navigator.webkitPersistentStorage.requestQuota(quota,
 			function(grantedBytes) {
 				initfs(grantedBytes,cb,context);
 		}, errorHandler
@@ -187,7 +197,7 @@ var init=function(quota,cb,context) {
 }
 var queryQuota=function(cb,context) {
 	var that=this;
-	navigator.webkitPersistentStorage.queryUsageAndQuota( 
+	navigator.webkitPersistentStorage.queryUsageAndQuota(
 	 function(usage,quota){
 			initfs(quota,function(){
 				cb.apply(context,[usage,quota]);
