@@ -117,8 +117,24 @@ var readFile=function(filename,cb,context) {
 				};
 	}, console.error);
 }
-var writeFile=function(filename,buf,cb,context){
 
+function createDir(rootDirEntry, folders,  cb) {
+  // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
+  if (folders[0] == '.' || folders[0] == '') {
+    folders = folders.slice(1);
+  }
+  rootDirEntry.getDirectory(folders[0], {create: true}, function(dirEntry) {
+    // Recursively add the new subfolder (if we still have another to create).
+    if (folders.length) {
+      createDir(dirEntry, folders.slice(1),cb);
+    } else {
+			cb();
+		}
+  }, cb);
+};
+
+
+var writeFile=function(filename,buf,cb,context){
 	var write=function(fileEntry){
 		fileEntry.createWriter(function(fileWriter) {
 			fileWriter.write(buf);
@@ -128,14 +144,24 @@ var writeFile=function(filename,buf,cb,context){
 		}, console.error);
 	}
 
-	API.fs.root.getFile(filename, {exclusive:true}, function(fileEntry) {
-		write(fileEntry);
-	}, function(){
-			API.fs.root.getFile(filename, {create:true,exclusive:true}, function(fileEntry) {
-				write(fileEntry);
-			});
+	var getFile=function(filename){
+		API.fs.root.getFile(filename, {exclusive:true}, function(fileEntry) {
+			write(fileEntry);
+		}, function(){
+				API.fs.root.getFile(filename, {create:true,exclusive:true}, function(fileEntry) {
+					write(fileEntry);
+				});
 
-	});
+		});
+	}
+	var slash=filename.lastIndexOf("/");
+	if (slash>-1) {
+		createDir(API.fs.root, filename.substr(0,slash).split("/"),function(){
+			getFile(filename);
+		});
+	} else {
+		getFile(filename);
+	}
 }
 
 var readdir=function(cb,context) {
