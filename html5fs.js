@@ -110,11 +110,14 @@ var download=function(url,fn,cb,statuscb,context) {
 }
 
 var readFile=function(filename,cb,context) {
-	API.fs.root.getFile(filename, function(fileEntry) {
+	API.fs.root.getFile(filename, {create: false, exclusive: false},function(fileEntry) {
+		fileEntry.file(function(file){
 			var reader = new FileReader();
 			reader.onloadend = function(e) {
-					if (cb) cb.apply(cb,[this.result]);
-				};
+				if (cb) cb.call(cb,this.result);
+			};
+			reader.readAsText(file,"utf8");
+		});
 	}, console.error);
 }
 
