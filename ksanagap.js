@@ -1,4 +1,7 @@
 var appname="installer";
+if (typeof ksana=="undefined") {
+	window.ksana={platform:"chrome"};
+}
 var switchApp=function(path) {
 	var fs=require("fs");
 	path="../"+path;
@@ -46,6 +49,42 @@ var jsonp=function(url,dbid,callback,context) {
   document.getElementsByTagName('head')[0].appendChild(script); 
 }
 
+
+var loadKsanajs=function(){
+	if (typeof process!="undefined" && !process.browser) {
+		var ksanajs=require("fs").readFileSync("./ksana.js","utf8").trim();
+		downloader=require("./downloader");
+		//ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
+		rootPath=process.cwd();
+		rootPath=require("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
+		ksana.ready=true;
+	} else{
+		var url=window.location.origin+window.location.pathname.replace("index.html","")+"ksana.js";
+		jsonp(url,appname,function(data){
+			ksana.js=data;
+			ksana.ready=true;
+		});
+	}
+}
+
+loadKsanajs();
+
+var boot=function(appId,cb) {
+	if (typeof appId=="function") {
+		cb=appId;
+		appId="unknownapp";
+	}
+
+	ksana.appId=appId;
+	var timer=setInterval(function(){
+			if (ksana.ready){
+				clearInterval(timer);
+				cb();
+			}
+		});
+}
+
+
 var ksanagap={
 	platform:"node-webkit",
 	startDownload:downloader.startDownload,
@@ -59,21 +98,6 @@ var ksanagap={
 	username:username, //not support on PC
 	useremail:username,
 	runtime_version:runtime_version,
-	
-}
-
-if (typeof process!="undefined" && !process.browser) {
-	var ksanajs=require("fs").readFileSync("./ksana.js","utf8").trim();
-	downloader=require("./downloader");
-	//ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
-	rootPath=process.cwd();
-	rootPath=require("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
-	ksana.ready=true;
-} else{
-	var url=window.location.origin+window.location.pathname.replace("index.html","")+"ksana.js";
-	jsonp(url,appname,function(data){
-		ksana.js=data;
-		ksana.ready=true;
-	});
+	boot:boot
 }
 module.exports=ksanagap;

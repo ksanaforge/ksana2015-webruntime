@@ -49,10 +49,9 @@ var boot=function(appId,opts,cb) {
 		timer=setInterval(function(){
 			if (ksana.ready){
 				clearInterval(timer);
-				if (!opts.noFileSystem && ksana.js && ksana.js.files && ksana.js.files.length) {
+				if ( (opts.chromeFileSystem) && ksana.js && ksana.js.files && ksana.js.files.length) {
 					require("./installkdb")(ksana.js,cb);
 				} else {
-					console.log("no filesystem")
 					cb();		
 				}
 			}
