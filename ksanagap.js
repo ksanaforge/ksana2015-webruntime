@@ -1,6 +1,10 @@
 var appname="installer";
 if (typeof ksana=="undefined") {
 	window.ksana={platform:"chrome"};
+	if (typeof process!=="undefined" && 
+		process.versions && process.versions["node-webkit"]) {
+		window.ksana.platform="node-webkit";
+	}
 }
 var switchApp=function(path) {
 	var fs=require("fs");
@@ -51,10 +55,11 @@ var jsonp=function(url,dbid,callback,context) {
 
 
 var loadKsanajs=function(){
+
 	if (typeof process!="undefined" && !process.browser) {
 		var ksanajs=require("fs").readFileSync("./ksana.js","utf8").trim();
 		downloader=require("./downloader");
-		//ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
+		ksana.js=JSON.parse(ksanajs.substring(14,ksanajs.length-1));
 		rootPath=process.cwd();
 		rootPath=require("path").resolve(rootPath,"..").replace(/\\/g,"/")+'/';
 		ksana.ready=true;
@@ -74,7 +79,9 @@ var boot=function(appId,cb) {
 		cb=appId;
 		appId="unknownapp";
 	}
-
+	if (!ksana.js && ksana.platform=="node-webkit") {
+		loadKsanajs();
+	}
 	ksana.appId=appId;
 	var timer=setInterval(function(){
 			if (ksana.ready){
