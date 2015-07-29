@@ -11,6 +11,8 @@ var checkIfBundleUpdated=function() {
 	});
 }
 var livereload=function() {
+	if(window.location.origin.indexOf("//127.0.0.1")===-1) return;
+
 	if (started) return;
 
 	timer1=setInterval(function(){
