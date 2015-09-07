@@ -83,12 +83,16 @@ var boot=function(appId,cb) {
 		loadKsanajs();
 	}
 	ksana.appId=appId;
+	if (ksana.ready) {
+		cb();
+		return;
+	}
 	var timer=setInterval(function(){
 			if (ksana.ready){
 				clearInterval(timer);
 				cb();
 			}
-		});
+		},1000);
 }
 
 
