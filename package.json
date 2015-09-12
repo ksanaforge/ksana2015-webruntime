@@ -1,6 +1,6 @@
 {
   "name": "ksana2015-webruntime",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "ksanagap runtime environment on web browser",
   "main": "index.js",
   "scripts": {

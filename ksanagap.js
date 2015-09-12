@@ -92,7 +92,7 @@ var boot=function(appId,cb) {
 				clearInterval(timer);
 				cb();
 			}
-		},1000);
+		},100);
 }
 
 
