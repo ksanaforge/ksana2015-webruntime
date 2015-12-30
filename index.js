@@ -42,7 +42,7 @@ var boot=function(appId,opts,cb) {
 	}
 	ksanagap.bootopts=opts;
 	if (typeof React!="undefined") {
-		React.initializeTouchEvents(true);
+		if (React.initializeTouchEvents) React.initializeTouchEvents(true);
 	}
 	ksana.appId=appId;
 	if (ksanagap.platform=="chrome") { //need to wait for jsonp ksana.js
