@@ -218,6 +218,7 @@ var initfs=function(grantedBytes,cb,context) {
 	}, errorHandler);
 }
 var init=function(quota,cb,context) {
+	if (!navigator.webkitPersistentStorage) return;
 	navigator.webkitPersistentStorage.requestQuota(quota,
 			function(grantedBytes) {
 				initfs(grantedBytes,cb,context);
