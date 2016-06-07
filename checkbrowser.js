@@ -8,7 +8,7 @@ var E=React.createElement;
 var hasksanagap=(typeof ksanagap!="undefined");
 if (hasksanagap && (typeof console=="undefined" || typeof console.log=="undefined")) {
 		window.console={log:ksanagap.log,error:ksanagap.error,debug:ksanagap.debug,warn:ksanagap.warn};
-		console.log("install console output funciton");
+		console.log("install console output function");
 }
 
 var checkfs=function() {
