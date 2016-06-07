@@ -8,12 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://yapcheahshen@github.com/ksanaforge/ksana2015-webruntime"
+    "url": "git+https://yapcheahshen@github.com/ksanaforge/ksana2015-webruntime.git"
   },
   "author": "yapcheahshen@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ksanaforge/ksana2015-webruntime/issues"
   },
-  "homepage": "https://github.com/ksanaforge/ksana2015-webruntime"
+  "homepage": "https://github.com/ksanaforge/ksana2015-webruntime",
+  "keywords": [
+    "ksana2015",
+    "webruntime"
+  ]
 }
